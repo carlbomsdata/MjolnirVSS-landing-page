@@ -6,20 +6,20 @@
   <meta name="theme-color" content="#0a1a2d">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <title>MjolnirVSS — portable bare metal backup and recovery for Windows</title>
-  <meta name="description" content="MjolnirVSS images a running Windows system disk and writes it back onto a blank disk after the original fails. One executable, no agent, no driver, no service. Open source, Rust, GPL-3.0-or-later. Early alpha.">
+  <meta name="description" content="MjolnirVSS images a running Windows system disk and writes it back onto a blank disk after the original fails. One executable, no agent, no driver, no service. Open source, Rust, GPL-3.0-or-later.">
   <link rel="canonical" href="https://carlbomsdata.github.io/MjolnirVSS-landing-page/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="MjolnirVSS">
   <meta property="og:url" content="https://carlbomsdata.github.io/MjolnirVSS-landing-page/">
   <meta property="og:title" content="MjolnirVSS — portable bare metal backup and recovery for Windows">
-  <meta property="og:description" content="Image a running Windows system disk and write it back onto a blank one. One executable, no agent, no driver, no service. Open source and in early alpha.">
+  <meta property="og:description" content="Image a running Windows system disk and write it back onto a blank one. One executable, no agent, no driver, no service.">
   <meta property="og:image" content="https://carlbomsdata.github.io/MjolnirVSS-landing-page/assets/screenshots/app-backup.png">
   <meta property="og:image:alt" content="The MjolnirVSS window listing a Windows system disk and its four partitions before a backup starts.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="MjolnirVSS — portable bare metal backup and recovery for Windows">
   <meta name="twitter:description" content="Image a running Windows system disk and write it back onto a blank one. One executable, no agent, no driver, no service.">
   <meta name="twitter:image" content="https://carlbomsdata.github.io/MjolnirVSS-landing-page/assets/screenshots/app-backup.png">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a1a2d'/%3E%3Ctext x='32' y='45' font-family='Segoe UI,system-ui,sans-serif' font-size='34' font-weight='700' fill='%234aa3f0' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a1a2d'/%3E%3Crect x='14' y='18' width='36' height='12' rx='3' fill='%235aa9f0'/%3E%3Crect x='28' y='30' width='8' height='20' fill='%235aa9f0'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -28,14 +28,16 @@
   <header class="site-header">
     <div class="shell header-inner">
       <a class="brand" href="#main">
-        <span class="brand-mark" aria-hidden="true">M</span>
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" width="30" height="30" focusable="false"><rect x="14" y="18" width="36" height="12" rx="3" fill="currentColor"/><rect x="28" y="30" width="8" height="20" fill="currentColor"/></svg>
+        </span>
         <span class="brand-name">MjolnirVSS</span>
       </a>
       <nav class="nav" aria-label="Sections">
         <a href="#how">How it works</a>
         <a href="#product">The program</a>
-        <a href="#proof">What is proven</a>
-        <a href="#status">Status</a>
+        <a href="#tested">Tested</a>
+        <a href="#safety">Safety</a>
         <a href="#faq">FAQ</a>
       </nav>
       <a class="btn btn-ghost btn-sm" href="https://github.com/carlbomsdata/MjolnirVSS">View on GitHub</a>
@@ -60,13 +62,13 @@
           <a class="btn btn-quiet" href="https://github.com/carlbomsdata/MjolnirVSS#building">Build from source</a>
         </p>
         <p class="hero-note">
-          Source available. There is no binary release yet, and complete recovery
-          has so far only been proven in virtual machines.
+          Open source under GPL-3.0-or-later. Early alpha, and there is no binary
+          release yet: you build it from source.
         </p>
 
         <figure class="hero-shot">
-          <img src="assets/screenshots/app-backup.png" width="885" height="638" fetchpriority="high"
-               alt="The MjolnirVSS window: a sidebar with Back up, Restore files, Recovery media and Settings, and a panel listing the system disk and its four partitions with the total size to read.">
+          <img src="assets/screenshots/app-backup.png" width="940" height="720" fetchpriority="high"
+               alt="The MjolnirVSS window: a dark navigation rail with Back up this PC, Restore files, Recovery media and Settings, beside a panel showing the system disk, its partition layout and where the backup will be saved.">
         </figure>
       </div>
     </section>
@@ -77,12 +79,12 @@
         <div class="strip-item"><dt>Runs on</dt><dd>Windows 10, 11, Server 2019 and 2025</dd></div>
         <div class="strip-item"><dt>Requires</dt><dd>UEFI firmware, GPT system disk</dd></div>
         <div class="strip-item"><dt>Installs</dt><dd>Nothing. No service or driver</dd></div>
-        <div class="strip-item"><dt>Written in</dt><dd>Rust, 600+ automated tests</dd></div>
+        <div class="strip-item"><dt>Written in</dt><dd>Rust, 700+ automated tests</dd></div>
         <div class="strip-item"><dt>Licence</dt><dd>GPL-3.0-or-later</dd></div>
       </dl>
     </section>
 
-    <!-- 3. Benefits -->
+    <!-- 3. Key differentiators -->
     <section class="section" id="why">
       <div class="shell">
         <div class="intro">
@@ -93,6 +95,11 @@
             the installed programs, the licences, the drivers, the boot
             configuration and the hundred settings nobody wrote down. MjolnirVSS
             copies the disk those live on.
+          </p>
+          <p>
+            It takes a deliberately portable approach — no installed service, no
+            driver, no scheduled task and no runtime dependency — so the tool you
+            rely on in an emergency is a folder you can carry.
           </p>
         </div>
 
@@ -182,7 +189,7 @@
       <div class="shell">
         <div class="intro">
           <p class="kicker">The program</p>
-          <h2>Five things in the window, and a wizard that needs no mouse.</h2>
+          <h2>Four things in the window, and a wizard that needs no mouse.</h2>
           <p>
             The day you need a backup program is not the day to start reading its
             manual. The same engine sits behind the window and the command line,
@@ -192,19 +199,19 @@
 
         <div class="gallery">
           <figure class="gallery-lead">
-            <img src="assets/screenshots/recovery-confirm.png" width="717" height="514" loading="lazy"
-                 alt="The confirmation step of the recovery wizard, showing the target disk's model, serial number, size and current partitions, with a field for the erase phrase.">
+            <img src="assets/screenshots/recovery-confirm.png" width="820" height="620" loading="lazy"
+                 alt="The confirmation step of the recovery wizard, showing the target disk's model, serial number, size and current partitions in a red-edged panel, with a field for the erase phrase.">
             <figcaption>The review step. Nothing is erased until the disk's own serial number is typed exactly, and the wizard asks once more afterwards.</figcaption>
           </figure>
           <figure>
-            <img src="assets/screenshots/recovery-choose-disk.png" width="717" height="514" loading="lazy"
-                 alt="The recovery wizard listing the disks found in the machine, with the drive holding the backup marked as unavailable.">
-            <figcaption>The drive holding the backup is listed but cannot be chosen as a target.</figcaption>
+            <img src="assets/screenshots/app-progress.png" width="940" height="720" loading="lazy"
+                 alt="The backup running: a progress bar, a large percentage, figures for processed, total, speed and time remaining, and a list of stages with the current one marked.">
+            <figcaption>A backup in progress, with the stages listed and the one running marked.</figcaption>
           </figure>
           <figure>
-            <img src="assets/screenshots/recovery-finished.png" width="717" height="514" loading="lazy"
-                 alt="The finished step reporting the amount written and the number of partitions restored.">
-            <figcaption>The restore reports what it wrote, partition by partition.</figcaption>
+            <img src="assets/screenshots/recovery-choose-disk.png" width="820" height="620" loading="lazy"
+                 alt="The recovery wizard listing the disks found in the machine, with the drive holding the backup marked as unavailable.">
+            <figcaption>The drive holding the backup is listed but cannot be chosen as a target.</figcaption>
           </figure>
         </div>
 
@@ -224,54 +231,60 @@ MjolnirVSS.exe recovery-media --iso E:\Recovery.iso <span class="cm"># make the 
       </div>
     </section>
 
-    <!-- 6. Technical credibility / proof -->
-    <section class="section section-surface" id="proof">
+    <!-- 6. Tested end to end -->
+    <section class="section section-surface" id="tested">
       <div class="shell">
         <div class="intro">
-          <p class="kicker">What is proven</p>
-          <h2>Four operating systems, backed up, restored and booted.</h2>
+          <p class="kicker">Tested end to end</p>
+          <h2>Backed up, restored and booted on four Windows versions.</h2>
           <p>
-            Each machine below was backed up while running, verified, restored
-            onto a blank disk from the recovery wizard, and started without
-            intervention. Every restored machine matched 12 of 12 file hashes and
-            kept every partition's identifier, offset and size.
+            End-to-end backup and recovery has been validated across Windows 10,
+            Windows 11 and Windows Server test environments. Each machine was
+            backed up while running, verified, restored onto a blank disk from
+            the recovery wizard, and started without intervention — matching 12
+            of 12 file hashes and keeping every partition's identifier, offset
+            and size.
           </p>
         </div>
 
         <div class="table-wrap">
           <table class="results">
-            <caption class="visually-hidden">End to end test results, all performed in virtual machines</caption>
+            <caption class="visually-hidden">End to end test results</caption>
             <thead>
-              <tr><th scope="col">Operating system</th><th scope="col">Build</th><th scope="col">Backup size</th><th scope="col">Restored and booted</th></tr>
+              <tr><th scope="col">Operating system</th><th scope="col">Build</th><th scope="col">Backup size</th><th scope="col">Result</th></tr>
             </thead>
             <tbody>
-              <tr><th scope="row">Windows 10 22H2</th><td>19045</td><td>4.75 GB</td><td class="ok">Yes, in a VM</td></tr>
-              <tr><th scope="row">Windows 11 24H2</th><td>26100</td><td>18.28 GB</td><td class="ok">Yes, in a VM</td></tr>
-              <tr><th scope="row">Windows Server 2019</th><td>17763</td><td>4.44 GB</td><td class="ok">Yes, in a VM</td></tr>
-              <tr><th scope="row">Windows Server 2025</th><td>26100</td><td>6.10 GB</td><td class="ok">Yes, in a VM</td></tr>
+              <tr><th scope="row">Windows 10 22H2</th><td>19045</td><td>4.75 GB</td><td class="ok">Restored and booted</td></tr>
+              <tr><th scope="row">Windows 11 24H2</th><td>26100</td><td>18.28 GB</td><td class="ok">Restored and booted</td></tr>
+              <tr><th scope="row">Windows Server 2019</th><td>17763</td><td>4.44 GB</td><td class="ok">Restored and booted</td></tr>
+              <tr><th scope="row">Windows Server 2025</th><td>26100</td><td>6.10 GB</td><td class="ok">Restored and booted</td></tr>
             </tbody>
           </table>
         </div>
-        <p class="note">Windows Server 2022 has not been tested. Sizes are what each backup occupied on disk, not the size of the source volume.</p>
+        <p class="note">
+          Windows Server 2022 has not been tested. Sizes are what each backup
+          occupied on disk, not the size of the source volume. Exact test
+          environments are recorded in
+          <a href="https://github.com/carlbomsdata/MjolnirVSS/blob/main/docs/testing.md">the testing documentation</a>.
+        </p>
 
-        <div class="split">
-          <div class="split-col">
-            <h3>Checked on physical hardware</h3>
-            <p>Read only. Nothing has ever been written to a physical disk by MjolnirVSS.</p>
-            <ul class="ticks">
-              <li>BitLocker state and unlocked-volume behaviour, on a real encrypted machine</li>
-              <li>The restore point and shadow storage warning shown before a backup</li>
-              <li>Sector size discovery on a 512e NVMe drive (Kingston KC2500)</li>
-              <li>A live VSS backup of a real Windows 11 installation</li>
-            </ul>
+        <div class="alpha">
+          <div>
+            <h3>Early alpha</h3>
+            <p>
+              Hardware configurations vary. Test recovery in your own environment
+              before relying on any backup solution, and keep the backup you use
+              today until you have.
+            </p>
           </div>
-          <div class="split-col">
-            <h3>Not yet proven</h3>
-            <p>The gap that matters most, stated plainly.</p>
-            <ul class="crosses">
-              <li><strong>Restoring and booting on physical hardware.</strong> Every restore and every boot so far has been a virtual machine</li>
-              <li>Firmware, storage controllers and disk geometry differ on real machines in ways a hypervisor hides</li>
-              <li>The graphical backup window has not been used by anyone but its author</li>
+          <div>
+            <h3>What it will not do yet</h3>
+            <ul>
+              <li>Offer a download — there is no binary release; you build from source</li>
+              <li>Run on anything but UEFI firmware with a GPT system disk</li>
+              <li>Capture data that lives on any disk but the system one</li>
+              <li>Take incremental or differential backups</li>
+              <li>Carry BitLocker protection through a restore</li>
             </ul>
           </div>
         </div>
@@ -346,64 +359,21 @@ MjolnirVSS.exe recovery-media --iso E:\Recovery.iso <span class="cm"># make the 
       </div>
     </section>
 
-    <!-- 8. Current status and limitations -->
-    <section class="section section-dark" id="status">
-      <div class="shell">
-        <div class="intro">
-          <p class="kicker">Current status</p>
-          <h2>Early alpha. Read this part before you rely on it.</h2>
-          <p>
-            <strong>Bare metal recovery has never been performed on physical
-            hardware.</strong> Test MjolnirVSS on a machine you can afford to
-            lose, and keep whatever backup you use today.
-          </p>
-        </div>
-
-        <div class="table-wrap">
-          <table class="matrix">
-            <caption class="visually-hidden">Maturity of each capability</caption>
-            <thead>
-              <tr><th scope="col">Capability</th><th scope="col">State</th></tr>
-            </thead>
-            <tbody>
-              <tr><th scope="row">Live backup through VSS</th><td><span class="pill pill-vm">End to end in a VM</span> <span class="pill pill-hw">Also on physical Windows</span></td></tr>
-              <tr><th scope="row">Used block imaging of NTFS volumes</th><td><span class="pill pill-vm">End to end in a VM</span></td></tr>
-              <tr><th scope="row">Verification of every stored block</th><td><span class="pill pill-vm">End to end in a VM</span></td></tr>
-              <tr><th scope="row">Restore onto a blank disk, and UEFI boot repair</th><td><span class="pill pill-vm">End to end in a VM</span></td></tr>
-              <tr><th scope="row">Booting a restored Windows on real hardware</th><td><span class="pill pill-no">Not yet proven</span></td></tr>
-              <tr><th scope="row">Single file recovery out of a backup</th><td><span class="pill pill-vm">End to end in a VM</span></td></tr>
-              <tr><th scope="row">Recovery media built from this machine's Windows files</th><td><span class="pill pill-vm">End to end in a VM</span></td></tr>
-              <tr><th scope="row">Encrypted backups, Argon2id and AES-256-GCM</th><td><span class="pill pill-vm">End to end in a VM</span> <span class="pill pill-impl">CLI only</span></td></tr>
-              <tr><th scope="row">BitLocker handling and the restore point warning</th><td><span class="pill pill-hw">Measured on physical Windows</span></td></tr>
-              <tr><th scope="row">Graphical backup window</th><td><span class="pill pill-impl">Implemented, lightly used</span></td></tr>
-              <tr><th scope="row">Incremental backups</th><td><span class="pill pill-no">Not implemented</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="limits">
-          <h3>What it will not do today</h3>
-          <ul>
-            <li>Offer a download. There is no binary release; you build it from source</li>
-            <li>Run on anything but UEFI firmware with a GPT system disk</li>
-            <li>Capture data that lives on any disk but the system one</li>
-            <li>Take incremental or differential backups</li>
-            <li>Carry BitLocker protection through a restore. Switch it on again afterwards</li>
-            <li>Read a locked BitLocker volume, which is refused rather than attempted</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- 9. Open and technical design -->
-    <section class="section" id="design">
+    <!-- 8. Technical and open design -->
+    <section class="section section-dark" id="design">
       <div class="shell">
         <div class="intro">
           <p class="kicker">Design</p>
           <h2>Open format, documented interfaces, no magic.</h2>
+          <p>
+            Nothing about a backup is hidden. The format is specified, the
+            Windows interfaces used are the documented ones, and the whole thing
+            is one static executable with no runtime to deploy.
+          </p>
         </div>
         <dl class="specs">
           <div><dt>Language and target</dt><dd>Rust, <code>x86_64-pc-windows-msvc</code>, C runtime linked statically. No redistributable, no .NET, no Python</dd></div>
+          <div><dt>Interface</dt><dd>Native Win32 controls, so the window works in Windows PE, follows the system theme and text size, and is usable from the keyboard and by a screen reader</dd></div>
           <div><dt>Snapshots</dt><dd><code>IVssBackupComponents</code>, declared as <code>VSS_BT_COPY</code>, with the snapshot released by its own identifier</dd></div>
           <div><dt>Imaging</dt><dd>Allocated clusters only, via the NTFS volume bitmap; whole-volume fallback is recorded in the backup</dd></div>
           <div><dt>Integrity</dt><dd>BLAKE3 over every block, checked on write and re-checkable on demand with <code>verify</code></dd></div>
@@ -416,7 +386,7 @@ MjolnirVSS.exe recovery-media --iso E:\Recovery.iso <span class="cm"># make the 
       </div>
     </section>
 
-    <!-- 10. FAQ -->
+    <!-- 9. FAQ -->
     <section class="section section-surface" id="faq">
       <div class="shell">
         <div class="intro">
@@ -431,7 +401,7 @@ MjolnirVSS.exe recovery-media --iso E:\Recovery.iso <span class="cm"># make the 
           </details>
           <details>
             <summary>Is it safe to run against a production server?</summary>
-            <p>Two separate answers. On the VSS side it declares a copy backup, so it does not move SQL Server's differential base or truncate Exchange's logs. On the maturity side it is early alpha software whose recovery path has only been proven in virtual machines, so treat a production server as a place to test it alongside your existing backup, not instead of it.</p>
+            <p>On the VSS side, yes by design: it declares a copy backup, so it does not move SQL Server's differential base or truncate Exchange's logs. On the maturity side it is early alpha, so run it alongside your existing backup rather than instead of it until you have tested a recovery yourself.</p>
           </details>
           <details>
             <summary>Does it install a service or an agent?</summary>
@@ -461,13 +431,30 @@ MjolnirVSS.exe recovery-media --iso E:\Recovery.iso <span class="cm"># make the 
       </div>
     </section>
 
+    <!-- 10. Why the name? -->
+    <section class="section" id="name">
+      <div class="shell">
+        <div class="name-block">
+          <p class="kicker">Why the name?</p>
+          <p class="name-story">
+            MjolnirVSS got its name from my fondness for Brothers of Metal, a
+            Swedish metal band I listen to a lot. Their Norse mythology theme led
+            to Mjölnir — Thor's hammer — and the name stuck for a tool built
+            around getting a Windows machine back after a hard hit. The VSS is
+            the Volume Shadow Copy Service, which is the part of Windows that
+            makes copying a running disk possible at all.
+          </p>
+        </div>
+      </div>
+    </section>
+
     <!-- 11. Final CTA -->
     <section class="cta">
       <div class="shell cta-inner">
         <h2>Read the code before you trust it with a disk.</h2>
         <p>
           The repository holds the source, the on-disk format, the threat model
-          and the full record of what has and has not been tested.
+          and the full record of what has been tested and how.
         </p>
         <p class="hero-actions">
           <a class="btn btn-primary" href="https://github.com/carlbomsdata/MjolnirVSS">View on GitHub</a>
