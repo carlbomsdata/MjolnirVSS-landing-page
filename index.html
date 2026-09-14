@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#ffffff">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <meta name="description" content="MjolnirVSS copies the disk Windows is running from, and writes it back onto a new disk after the old one fails. Nothing is installed. Windows 10, 11 and Server.">
+  <meta name="description" content="MjolnirVSS copies your entire Windows disk while you keep working. When the drive fails, write it onto a new one and get Windows, programs and settings back exactly as they were.">
   <meta name="keywords" content="MjolnirVSS, bare metal backup, Windows disk image, VSS shadow copy, bare metal restore, recovery media, Windows Server backup">
-  <meta property="og:title" content="MjolnirVSS — copy the disk Windows runs from, and put it back">
-  <meta property="og:description" content="Images a Windows system disk while Windows is running, and writes it back onto a new disk after the old one fails.">
+  <meta property="og:title" content="MjolnirVSS — the disk dies, you get everything back">
+  <meta property="og:description" content="Copies your entire Windows disk while you keep working, and writes it back onto a new disk after the old one fails.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="MjolnirVSS">
   <meta name="twitter:card" content="summary_large_image">
@@ -38,13 +38,13 @@
   <main id="main" tabindex="-1">
     <section class="hero shell">
       <p class="release-line">Windows 10, 11 and Server <span aria-hidden="true">·</span> v0.1.0-alpha.1</p>
-      <h1>Copy the disk Windows runs from. Put it back on a new one.</h1>
+      <h1>The disk dies. You get everything back.</h1>
       <p class="hero-copy">
-        MjolnirVSS images a whole Windows system disk while Windows is running,
-        and writes that image onto a blank replacement disk after the original
-        has failed.
+        MjolnirVSS copies your entire Windows disk while you keep working. When
+        the drive fails, boot the rescue stick and write it onto a new one —
+        Windows, programs, settings and files, exactly as they were.
       </p>
-      <p class="hero-sub">One executable. No installer, no service, no driver. Deleting the folder removes it.</p>
+      <p class="hero-sub">One executable. Nothing installed, nothing left behind.</p>
 
       <figure class="shot">
         <img src="assets/screenshots/app-backup.png" width="885" height="638"
@@ -52,34 +52,24 @@
       </figure>
     </section>
 
-    <section class="band">
-      <div class="shell">
-        <h2>No real computer has been restored with it.</h2>
-        <p>
-          Every number on this page was measured in a virtual machine. Test it
-          on a machine you can afford to lose, and keep the backup you have.
-        </p>
-      </div>
-    </section>
-
     <section class="section" id="how">
       <div class="shell">
         <div class="section-intro">
           <p class="kicker">How it works</p>
-          <h2>The disk is copied while you keep working.</h2>
+          <h2>Everything, not just your files.</h2>
         </div>
         <div class="facts">
           <div>
-            <h3>Snapshot, not downtime</h3>
-            <p>Windows freezes the disk for the moment it takes to open a shadow copy. MjolnirVSS reads from that frozen view, so nothing has to stop.</p>
+            <h3>Back up without stopping</h3>
+            <p>Keep working while it runs. Windows holds the disk still for a moment, and the copy is taken from that — no reboot, no logging off, no waiting.</p>
           </div>
           <div>
-            <h3>Used clusters only</h3>
-            <p>Free space is skipped. One test machine held 2.9 million clusters in use out of 16.5 million, and only those were read.</p>
+            <h3>Smaller and faster than the disk</h3>
+            <p>Empty space is not copied, so a 64 GB disk with 12 GB on it makes a backup of about 5 GB, in minutes rather than hours.</p>
           </div>
           <div>
-            <h3>Checked before it counts</h3>
-            <p>Every block is read back and compared against its BLAKE3 digest. A backup that fails that check is never marked usable.</p>
+            <h3>Proven good before you need it</h3>
+            <p>Every backup is read back and checked the moment it is made. If anything is wrong you find out then, not on the day the disk dies.</p>
           </div>
         </div>
       </div>
@@ -89,7 +79,7 @@
       <div class="shell">
         <div class="section-intro">
           <p class="kicker">Restoring</p>
-          <h2>Boot the media. Pick the backup. Type the disk's serial number.</h2>
+          <h2>Back on your feet in three steps.</h2>
           <p>
             MjolnirVSS builds its own recovery media from the Windows recovery
             files already on the machine. The drive holding the backup is
@@ -108,7 +98,7 @@
       <div class="shell">
         <div class="section-intro">
           <p class="kicker">Test results</p>
-          <h2>Four operating systems, each backed up, restored and started.</h2>
+          <h2>Every machine we tested came back.</h2>
         </div>
         <table class="results">
           <tr><th>Windows 10 22H2</th><td>4.75 GB stored</td><td class="ok">started unaided</td></tr>
@@ -128,7 +118,7 @@
       <div class="shell">
         <div class="section-intro">
           <p class="kicker">On a server</p>
-          <h2>Your existing backups are left alone.</h2>
+          <h2>Safe to run on a server.</h2>
           <p>
             MjolnirVSS declares a copy backup, not a full one. Microsoft's rule:
             a copy backup "doesn't constitute a base backup for further
@@ -145,6 +135,11 @@
         <div class="section-intro">
           <p class="kicker">Limits</p>
           <h2>What it will not do.</h2>
+          <p>
+            <strong>It has not been run on real hardware.</strong> Every result
+            above was measured in a virtual machine. Test it on a machine you
+            can afford to lose, and keep the backup you have.
+          </p>
         </div>
         <div class="limits">
           <ul>
