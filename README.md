@@ -18,8 +18,9 @@ be traced to something measured and written down there, it does not belong here.
 - **No invented proof.** No testimonials, user counts, uptime figures,
   benchmarks, reviews, certifications or logos that do not exist. Every figure on
   the page is traceable to a measurement written down in that repository.
-- **No download button** until there is a binary release. The single primary
-  call to action is *View on GitHub*.
+- **The download button points at a real release.** If the releases page is ever
+  emptied, the button goes and *View on GitHub* becomes the primary call to
+  action again.
 - **No competitor claims.** Say what MjolnirVSS does, not what other products
   supposedly want from you.
 - Absolute safety claims are out. State the specific behaviour instead, for
