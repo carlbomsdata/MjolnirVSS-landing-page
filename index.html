@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#ffffff">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <meta name="description" content="MjolnirVSS images a Windows system disk while Windows is running, and writes it back onto a new disk after the old one fails. Nothing is installed.">
+  <meta name="description" content="MjolnirVSS copies the disk Windows is running from, and writes it back onto a new disk after the old one fails. Nothing is installed. Windows 10, 11 and Server.">
   <meta name="keywords" content="MjolnirVSS, bare metal backup, Windows disk image, VSS shadow copy, bare metal restore, recovery media, Windows Server backup">
-  <meta property="og:title" content="MjolnirVSS — bare metal backup for Windows">
-  <meta property="og:description" content="Image a Windows system disk while Windows runs. Put it back on a new disk after the old one fails.">
+  <meta property="og:title" content="MjolnirVSS — copy the disk Windows runs from, and put it back">
+  <meta property="og:description" content="Images a Windows system disk while Windows is running, and writes it back onto a new disk after the old one fails.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="MjolnirVSS">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23143c6e'/%3E%3Ctext x='32' y='44' font-family='Segoe UI,system-ui,sans-serif' font-size='32' font-weight='700' fill='%2378beff' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
-  <title>MjolnirVSS — bare metal backup for Windows</title>
+  <title>MjolnirVSS — bare metal backup and restore for Windows</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -27,7 +27,8 @@
       </a>
       <nav class="nav" aria-label="Primary navigation">
         <a href="#how">How it works</a>
-        <a href="#tested">Tested</a>
+        <a href="#restore">Restoring</a>
+        <a href="#tested">Test results</a>
         <a href="#limits">Limits</a>
       </nav>
       <a class="header-link" href="https://github.com/carlbomsdata/MjolnirVSS">GitHub</a>
@@ -36,13 +37,14 @@
 
   <main id="main" tabindex="-1">
     <section class="hero shell">
-      <p class="release-line">For Windows 10, 11 and Server <span aria-hidden="true">·</span> v0.1.0-alpha.1</p>
-      <h1>Put the whole disk back.</h1>
+      <p class="release-line">Windows 10, 11 and Server <span aria-hidden="true">·</span> v0.1.0-alpha.1</p>
+      <h1>Copy the disk Windows runs from. Put it back on a new one.</h1>
       <p class="hero-copy">
-        An image of a Windows system disk, taken while Windows is running, that
-        can be written onto a blank disk after the old one fails.
+        MjolnirVSS images a whole Windows system disk while Windows is running,
+        and writes that image onto a blank replacement disk after the original
+        has failed.
       </p>
-      <p class="hero-sub">No installer, no service, no driver. Delete the folder and it is gone.</p>
+      <p class="hero-sub">One executable. No installer, no service, no driver. Deleting the folder removes it.</p>
 
       <figure class="shot">
         <img src="assets/screenshots/app-backup.png" width="885" height="638"
@@ -52,11 +54,10 @@
 
     <section class="band">
       <div class="shell">
-        <h2>It has never restored a real computer.</h2>
+        <h2>No real computer has been restored with it.</h2>
         <p>
-          Every figure on this page was measured in a virtual machine. Treat
-          MjolnirVSS as something to test on a machine you can afford to lose,
-          and keep the backup you already have.
+          Every number on this page was measured in a virtual machine. Test it
+          on a machine you can afford to lose, and keep the backup you have.
         </p>
       </div>
     </section>
@@ -65,53 +66,35 @@
       <div class="shell">
         <div class="section-intro">
           <p class="kicker">How it works</p>
-          <h2>One disk, captured whole, while you carry on using it.</h2>
+          <h2>The disk is copied while you keep working.</h2>
         </div>
         <div class="facts">
           <div>
-            <h3>Taken live</h3>
-            <p>Microsoft's shadow copy service freezes the disk for the instant it takes to start a snapshot. The copy is read from that frozen view.</p>
+            <h3>Snapshot, not downtime</h3>
+            <p>Windows freezes the disk for the moment it takes to open a shadow copy. MjolnirVSS reads from that frozen view, so nothing has to stop.</p>
           </div>
           <div>
-            <h3>Only what is in use</h3>
-            <p>Free space is not copied. On one measured machine that was 2.9 million clusters out of 16.5 million.</p>
+            <h3>Used clusters only</h3>
+            <p>Free space is skipped. One test machine held 2.9 million clusters in use out of 16.5 million, and only those were read.</p>
           </div>
           <div>
-            <h3>Verified before it is trusted</h3>
-            <p>Every stored block is read back and checked against its digest. Only then is the backup marked complete.</p>
+            <h3>Checked before it counts</h3>
+            <p>Every block is read back and compared against its BLAKE3 digest. A backup that fails that check is never marked usable.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section section-muted" id="tested">
+    <section class="section section-muted" id="restore">
       <div class="shell">
         <div class="section-intro">
-          <p class="kicker">What has been run</p>
-          <h2>Four operating systems, backed up, restored, and started.</h2>
-        </div>
-        <table class="results">
-          <tr><th>Windows 10 22H2</th><td>4.75 GB stored</td><td class="ok">booted</td></tr>
-          <tr><th>Windows 11 24H2</th><td>18.28 GB stored</td><td class="ok">booted</td></tr>
-          <tr><th>Windows Server 2019</th><td>4.44 GB stored</td><td class="ok">booted</td></tr>
-          <tr><th>Windows Server 2025</th><td>6.10 GB stored</td><td class="ok">booted</td></tr>
-        </table>
-        <p class="note">
-          Each restored machine started unaided, matched 12 of 12 file hashes,
-          and kept every partition's identifier, offset and size.
-        </p>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="shell">
-        <div class="section-intro">
-          <p class="kicker">When the disk has failed</p>
-          <h2>Boot the media, choose the backup, type the disk's serial number.</h2>
+          <p class="kicker">Restoring</p>
+          <h2>Boot the media. Pick the backup. Type the disk's serial number.</h2>
           <p>
-            MjolnirVSS builds its own recovery media from the Windows parts this
-            computer already has. The drive holding the backup cannot be chosen,
-            and nothing is erased until you have typed the phrase exactly.
+            MjolnirVSS builds its own recovery media from the Windows recovery
+            files already on the machine. The drive holding the backup is
+            excluded, and nothing is erased until the serial number is typed
+            exactly. The wizard runs from the keyboard alone.
           </p>
         </div>
         <figure class="shot">
@@ -121,19 +104,55 @@
       </div>
     </section>
 
-    <section class="section section-muted" id="limits">
+    <section class="section" id="tested">
       <div class="shell">
         <div class="section-intro">
-          <p class="kicker">The limits</p>
+          <p class="kicker">Test results</p>
+          <h2>Four operating systems, each backed up, restored and started.</h2>
+        </div>
+        <table class="results">
+          <tr><th>Windows 10 22H2</th><td>4.75 GB stored</td><td class="ok">started unaided</td></tr>
+          <tr><th>Windows 11 24H2</th><td>18.28 GB stored</td><td class="ok">started unaided</td></tr>
+          <tr><th>Windows Server 2019</th><td>4.44 GB stored</td><td class="ok">started unaided</td></tr>
+          <tr><th>Windows Server 2025</th><td>6.10 GB stored</td><td class="ok">started unaided</td></tr>
+        </table>
+        <p class="note">
+          Each restored machine matched 12 of 12 file hashes and kept every
+          partition's identifier, offset and size. Windows Server 2022 was not
+          tested.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section-muted">
+      <div class="shell">
+        <div class="section-intro">
+          <p class="kicker">On a server</p>
+          <h2>Your existing backups are left alone.</h2>
+          <p>
+            MjolnirVSS declares a copy backup, not a full one. Microsoft's rule:
+            a copy backup "doesn't constitute a base backup for further
+            differential backup operations", and "log files should never be
+            truncated as a result of a copy backup". Running it does not move
+            SQL Server's differential base or truncate Exchange's logs.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="limits">
+      <div class="shell">
+        <div class="section-intro">
+          <p class="kicker">Limits</p>
           <h2>What it will not do.</h2>
         </div>
         <div class="limits">
           <ul>
             <li>Run on anything but UEFI with a GPT system disk</li>
-            <li>Capture data that lives on any disk but the system one</li>
+            <li>Copy data that lives on any disk but the system one</li>
             <li>Take incremental backups</li>
-            <li>Keep BitLocker switched on through a restore</li>
-            <li>Offer you a download, because there is no release yet</li>
+            <li>Leave BitLocker switched on through a restore</li>
+            <li>Offer a download — there is no release yet</li>
           </ul>
         </div>
       </div>
@@ -142,8 +161,8 @@
 
   <footer class="site-footer">
     <div class="shell footer-inner">
-      <p>Free software under the GNU General Public License, version 3 or later.</p>
-      <p><a href="https://github.com/carlbomsdata/MjolnirVSS">Source and documentation</a></p>
+      <p>GNU General Public License, version 3 or later.</p>
+      <p><a href="https://github.com/carlbomsdata/MjolnirVSS">Source code and documentation</a></p>
     </div>
   </footer>
 </body>
