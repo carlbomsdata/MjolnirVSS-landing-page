@@ -3,17 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#0a1a2d">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <meta name="description" content="MjolnirVSS copies your entire Windows disk while you keep working. When the drive fails, write it onto a new one and get Windows, programs and settings back exactly as they were.">
-  <meta name="keywords" content="MjolnirVSS, bare metal backup, Windows disk image, VSS shadow copy, bare metal restore, recovery media, Windows Server backup">
-  <meta property="og:title" content="MjolnirVSS — the disk dies, you get everything back">
-  <meta property="og:description" content="Copies your entire Windows disk while you keep working, and writes it back onto a new disk after the old one fails.">
+  <title>MjolnirVSS — portable bare metal backup and recovery for Windows</title>
+  <meta name="description" content="MjolnirVSS images a running Windows system disk and writes it back onto a blank disk after the original fails. One executable, no agent, no driver, no service. Open source, Rust, GPL-3.0-or-later. Early alpha.">
+  <link rel="canonical" href="https://carlbomsdata.github.io/MjolnirVSS-landing-page/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="MjolnirVSS">
+  <meta property="og:url" content="https://carlbomsdata.github.io/MjolnirVSS-landing-page/">
+  <meta property="og:title" content="MjolnirVSS — portable bare metal backup and recovery for Windows">
+  <meta property="og:description" content="Image a running Windows system disk and write it back onto a blank one. One executable, no agent, no driver, no service. Open source and in early alpha.">
+  <meta property="og:image" content="https://carlbomsdata.github.io/MjolnirVSS-landing-page/assets/screenshots/app-backup.png">
+  <meta property="og:image:alt" content="The MjolnirVSS window listing a Windows system disk and its four partitions before a backup starts.">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23143c6e'/%3E%3Ctext x='32' y='44' font-family='Segoe UI,system-ui,sans-serif' font-size='32' font-weight='700' fill='%2378beff' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
-  <title>MjolnirVSS — bare metal backup and restore for Windows</title>
+  <meta name="twitter:title" content="MjolnirVSS — portable bare metal backup and recovery for Windows">
+  <meta name="twitter:description" content="Image a running Windows system disk and write it back onto a blank one. One executable, no agent, no driver, no service.">
+  <meta name="twitter:image" content="https://carlbomsdata.github.io/MjolnirVSS-landing-page/assets/screenshots/app-backup.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a1a2d'/%3E%3Ctext x='32' y='45' font-family='Segoe UI,system-ui,sans-serif' font-size='34' font-weight='700' fill='%234aa3f0' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -21,143 +27,461 @@
 
   <header class="site-header">
     <div class="shell header-inner">
-      <a class="brand" href="#main" aria-label="MjolnirVSS home">
+      <a class="brand" href="#main">
         <span class="brand-mark" aria-hidden="true">M</span>
-        <span>MjolnirVSS</span>
+        <span class="brand-name">MjolnirVSS</span>
       </a>
-      <nav class="nav" aria-label="Primary navigation">
+      <nav class="nav" aria-label="Sections">
         <a href="#how">How it works</a>
-        <a href="#restore">Restoring</a>
-        <a href="#tested">Test results</a>
-        <a href="#limits">Limits</a>
+        <a href="#product">The program</a>
+        <a href="#proof">What is proven</a>
+        <a href="#status">Status</a>
+        <a href="#faq">FAQ</a>
       </nav>
-      <a class="header-link" href="https://github.com/carlbomsdata/MjolnirVSS">GitHub</a>
+      <a class="btn btn-ghost btn-sm" href="https://github.com/carlbomsdata/MjolnirVSS">View on GitHub</a>
     </div>
   </header>
 
-  <main id="main" tabindex="-1">
-    <section class="hero shell">
-      <p class="release-line">Windows 10, 11 and Server <span aria-hidden="true">·</span> v0.1.0-alpha.1</p>
-      <h1>The disk dies. You get everything back.</h1>
-      <p class="hero-copy">
-        MjolnirVSS copies your entire Windows disk while you keep working. When
-        the drive fails, boot the rescue stick and write it onto a new one —
-        Windows, programs, settings and files, exactly as they were.
-      </p>
-      <p class="hero-sub">One executable. Nothing installed, nothing left behind.</p>
+  <main id="main">
 
-      <figure class="shot">
-        <img src="assets/screenshots/app-backup.png" width="885" height="638"
-             alt="The MjolnirVSS window listing the computer's disk and its four partitions before anything is copied.">
-      </figure>
-    </section>
+    <!-- 1. Hero -->
+    <section class="hero">
+      <div class="shell hero-inner">
+        <p class="eyebrow">Early alpha <span class="dot" aria-hidden="true"></span> v0.1.0-alpha.1 <span class="dot" aria-hidden="true"></span> GPL-3.0-or-later</p>
+        <h1>Bare metal backup for Windows, without installing anything.</h1>
+        <p class="lede">
+          MjolnirVSS images a running Windows system disk — partition table, EFI,
+          Windows and recovery — and writes that image back onto a blank disk
+          after the original has failed. One executable, run from a folder. No
+          agent, no driver, no service.
+        </p>
+        <p class="hero-actions">
+          <a class="btn btn-primary" href="https://github.com/carlbomsdata/MjolnirVSS">View on GitHub</a>
+          <a class="btn btn-quiet" href="https://github.com/carlbomsdata/MjolnirVSS#building">Build from source</a>
+        </p>
+        <p class="hero-note">
+          Source available. There is no binary release yet, and complete recovery
+          has so far only been proven in virtual machines.
+        </p>
 
-    <section class="section" id="how">
-      <div class="shell">
-        <div class="section-intro">
-          <p class="kicker">How it works</p>
-          <h2>Everything, not just your files.</h2>
-        </div>
-        <div class="facts">
-          <div>
-            <h3>Back up without stopping</h3>
-            <p>Keep working while it runs. Windows holds the disk still for a moment, and the copy is taken from that — no reboot, no logging off, no waiting.</p>
-          </div>
-          <div>
-            <h3>Smaller and faster than the disk</h3>
-            <p>Empty space is not copied, so a 64 GB disk with 12 GB on it makes a backup of about 5 GB, in minutes rather than hours.</p>
-          </div>
-          <div>
-            <h3>Proven good before you need it</h3>
-            <p>Every backup is read back and checked the moment it is made. If anything is wrong you find out then, not on the day the disk dies.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-muted" id="restore">
-      <div class="shell">
-        <div class="section-intro">
-          <p class="kicker">Restoring</p>
-          <h2>Back on your feet in three steps.</h2>
-          <p>
-            MjolnirVSS builds its own recovery media from the Windows recovery
-            files already on the machine. The drive holding the backup is
-            excluded, and nothing is erased until the serial number is typed
-            exactly. The wizard runs from the keyboard alone.
-          </p>
-        </div>
-        <figure class="shot">
-          <img src="assets/screenshots/recovery-confirm.png" width="717" height="514" loading="lazy"
-               alt="The recovery wizard showing what will be restored and onto which disk, with a box to type the erase phrase.">
+        <figure class="hero-shot">
+          <img src="assets/screenshots/app-backup.png" width="885" height="638" fetchpriority="high"
+               alt="The MjolnirVSS window: a sidebar with Back up, Restore files, Recovery media and Settings, and a panel listing the system disk and its four partitions with the total size to read.">
         </figure>
       </div>
     </section>
 
-    <section class="section" id="tested">
+    <!-- 2. Trust strip -->
+    <section class="strip" aria-label="At a glance">
+      <dl class="shell strip-inner">
+        <div class="strip-item"><dt>Runs on</dt><dd>Windows 10, 11, Server 2019 and 2025</dd></div>
+        <div class="strip-item"><dt>Requires</dt><dd>UEFI firmware, GPT system disk</dd></div>
+        <div class="strip-item"><dt>Installs</dt><dd>Nothing. No service or driver</dd></div>
+        <div class="strip-item"><dt>Written in</dt><dd>Rust, 600+ automated tests</dd></div>
+        <div class="strip-item"><dt>Licence</dt><dd>GPL-3.0-or-later</dd></div>
+      </dl>
+    </section>
+
+    <!-- 3. Benefits -->
+    <section class="section" id="why">
       <div class="shell">
-        <div class="section-intro">
-          <p class="kicker">Test results</p>
-          <h2>Every machine we tested came back.</h2>
+        <div class="intro">
+          <p class="kicker">Why it exists</p>
+          <h2>A failed system disk should cost you an afternoon, not a rebuild.</h2>
+          <p>
+            Copying files protects documents. It does not protect the machine:
+            the installed programs, the licences, the drivers, the boot
+            configuration and the hundred settings nobody wrote down. MjolnirVSS
+            copies the disk those live on.
+          </p>
         </div>
-        <table class="results">
-          <tr><th>Windows 10 22H2</th><td>4.75 GB stored</td><td class="ok">started unaided</td></tr>
-          <tr><th>Windows 11 24H2</th><td>18.28 GB stored</td><td class="ok">started unaided</td></tr>
-          <tr><th>Windows Server 2019</th><td>4.44 GB stored</td><td class="ok">started unaided</td></tr>
-          <tr><th>Windows Server 2025</th><td>6.10 GB stored</td><td class="ok">started unaided</td></tr>
-        </table>
-        <p class="note">
-          Each restored machine matched 12 of 12 file hashes and kept every
-          partition's identifier, offset and size. Windows Server 2022 was not
-          tested.
-        </p>
+
+        <div class="cards">
+          <article class="card">
+            <h3>The whole machine comes back</h3>
+            <p>
+              Every partition needed to start Windows is captured together: the
+              GPT table, EFI system partition, Microsoft Reserved, Windows and
+              the recovery partition. If one cannot be read, the backup fails
+              rather than producing a disk that will not boot.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Nobody has to stop working</h3>
+            <p>
+              The Volume Shadow Copy Service holds the volume still for the
+              instant it takes to open a snapshot. The image is read from that
+              snapshot, so applications keep running and no reboot is needed.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Faults are found on backup day</h3>
+            <p>
+              Every block is read back, decompressed and compared against its
+              BLAKE3 digest before a backup is marked complete. A damaged backup
+              is refused by the restore wizard rather than half written.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Nothing is left on the machine</h3>
+            <p>
+              No installer, no Windows service, no filter driver, no scheduled
+              task, no registry entries and no runtime to deploy. It runs from a
+              USB stick, and deleting the folder removes every trace of it.
+            </p>
+          </article>
+        </div>
       </div>
     </section>
 
-    <section class="section section-muted">
+    <!-- 4. How it works -->
+    <section class="section section-surface" id="how">
       <div class="shell">
-        <div class="section-intro">
-          <p class="kicker">On a server</p>
-          <h2>Safe to run on a server.</h2>
+        <div class="intro">
+          <p class="kicker">How it works</p>
+          <h2>Three stages, and you only run the third one once.</h2>
+        </div>
+
+        <ol class="steps">
+          <li>
+            <p class="step-no" aria-hidden="true">01</p>
+            <h3>Snapshot the running system</h3>
+            <p>
+              MjolnirVSS asks VSS for a shadow copy of the system volume and
+              reads the image from that, so the contents are consistent as of one
+              moment. It declares a <em>copy</em> backup, which leaves other
+              backup software's schedules and logs alone.
+            </p>
+          </li>
+          <li>
+            <p class="step-no" aria-hidden="true">02</p>
+            <h3>Image only what is in use</h3>
+            <p>
+              NTFS is asked which clusters are allocated, and only those are
+              read. Blocks are compressed and hashed, and can be encrypted with
+              Argon2id and AES-256-GCM. A volume that will not report its bitmap
+              is copied whole, and the backup records that it was.
+            </p>
+          </li>
+          <li>
+            <p class="step-no" aria-hidden="true">03</p>
+            <h3>Write it onto a blank disk</h3>
+            <p>
+              Recovery media is built from the Windows recovery files already on
+              the machine. Booted on the broken computer, the wizard rebuilds the
+              partition layout, writes every partition back and repairs the UEFI
+              boot configuration.
+            </p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 5. Product UI -->
+    <section class="section" id="product">
+      <div class="shell">
+        <div class="intro">
+          <p class="kicker">The program</p>
+          <h2>Five things in the window, and a wizard that needs no mouse.</h2>
           <p>
-            MjolnirVSS declares a copy backup, not a full one. Microsoft's rule:
-            a copy backup "doesn't constitute a base backup for further
-            differential backup operations", and "log files should never be
-            truncated as a result of a copy backup". Running it does not move
-            SQL Server's differential base or truncate Exchange's logs.
+            The day you need a backup program is not the day to start reading its
+            manual. The same engine sits behind the window and the command line,
+            so a bug found in one is the bug the other would have had.
+          </p>
+        </div>
+
+        <div class="gallery">
+          <figure class="gallery-lead">
+            <img src="assets/screenshots/recovery-confirm.png" width="717" height="514" loading="lazy"
+                 alt="The confirmation step of the recovery wizard, showing the target disk's model, serial number, size and current partitions, with a field for the erase phrase.">
+            <figcaption>The review step. Nothing is erased until the disk's own serial number is typed exactly, and the wizard asks once more afterwards.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/screenshots/recovery-choose-disk.png" width="717" height="514" loading="lazy"
+                 alt="The recovery wizard listing the disks found in the machine, with the drive holding the backup marked as unavailable.">
+            <figcaption>The drive holding the backup is listed but cannot be chosen as a target.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/screenshots/recovery-finished.png" width="717" height="514" loading="lazy"
+                 alt="The finished step reporting the amount written and the number of partitions restored.">
+            <figcaption>The restore reports what it wrote, partition by partition.</figcaption>
+          </figure>
+        </div>
+
+        <div class="cli">
+          <p class="cli-label">The command line runs the same engine</p>
+          <pre><code>MjolnirVSS.exe inspect                              <span class="cm"># what would be copied</span>
+MjolnirVSS.exe backup --destination E:\Backups      <span class="cm"># copy it</span>
+MjolnirVSS.exe verify E:\Backups\PC_2026-09-14_1015
+MjolnirVSS.exe recovery-media --iso E:\Recovery.iso <span class="cm"># make the rescue media</span></code></pre>
+          <p class="cli-note">
+            Every command takes <code>--json</code> and prints one document,
+            failures included, with the exit code inside it. Eleven exit codes
+            form a documented contract, so a scheduled task can tell a damaged
+            backup from a wrong destination.
           </p>
         </div>
       </div>
     </section>
 
-    <section class="section" id="limits">
+    <!-- 6. Technical credibility / proof -->
+    <section class="section section-surface" id="proof">
       <div class="shell">
-        <div class="section-intro">
-          <p class="kicker">Limits</p>
-          <h2>What it will not do.</h2>
+        <div class="intro">
+          <p class="kicker">What is proven</p>
+          <h2>Four operating systems, backed up, restored and booted.</h2>
           <p>
-            <strong>It has not been run on real hardware.</strong> Every result
-            above was measured in a virtual machine. Test it on a machine you
-            can afford to lose, and keep the backup you have.
+            Each machine below was backed up while running, verified, restored
+            onto a blank disk from the recovery wizard, and started without
+            intervention. Every restored machine matched 12 of 12 file hashes and
+            kept every partition's identifier, offset and size.
           </p>
         </div>
+
+        <div class="table-wrap">
+          <table class="results">
+            <caption class="visually-hidden">End to end test results, all performed in virtual machines</caption>
+            <thead>
+              <tr><th scope="col">Operating system</th><th scope="col">Build</th><th scope="col">Backup size</th><th scope="col">Restored and booted</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Windows 10 22H2</th><td>19045</td><td>4.75 GB</td><td class="ok">Yes, in a VM</td></tr>
+              <tr><th scope="row">Windows 11 24H2</th><td>26100</td><td>18.28 GB</td><td class="ok">Yes, in a VM</td></tr>
+              <tr><th scope="row">Windows Server 2019</th><td>17763</td><td>4.44 GB</td><td class="ok">Yes, in a VM</td></tr>
+              <tr><th scope="row">Windows Server 2025</th><td>26100</td><td>6.10 GB</td><td class="ok">Yes, in a VM</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">Windows Server 2022 has not been tested. Sizes are what each backup occupied on disk, not the size of the source volume.</p>
+
+        <div class="split">
+          <div class="split-col">
+            <h3>Checked on physical hardware</h3>
+            <p>Read only. Nothing has ever been written to a physical disk by MjolnirVSS.</p>
+            <ul class="ticks">
+              <li>BitLocker state and unlocked-volume behaviour, on a real encrypted machine</li>
+              <li>The restore point and shadow storage warning shown before a backup</li>
+              <li>Sector size discovery on a 512e NVMe drive (Kingston KC2500)</li>
+              <li>A live VSS backup of a real Windows 11 installation</li>
+            </ul>
+          </div>
+          <div class="split-col">
+            <h3>Not yet proven</h3>
+            <p>The gap that matters most, stated plainly.</p>
+            <ul class="crosses">
+              <li><strong>Restoring and booting on physical hardware.</strong> Every restore and every boot so far has been a virtual machine</li>
+              <li>Firmware, storage controllers and disk geometry differ on real machines in ways a hypervisor hides</li>
+              <li>The graphical backup window has not been used by anyone but its author</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Safety -->
+    <section class="section" id="safety">
+      <div class="shell">
+        <div class="intro">
+          <p class="kicker">Safety</p>
+          <h2>Built to refuse rather than guess.</h2>
+        </div>
+
+        <div class="cards cards-3">
+          <article class="card">
+            <h3>It declares a copy backup</h3>
+            <p>
+              MjolnirVSS sets <code>VSS_BT_COPY</code>. In Microsoft's words a
+              copy backup <q>doesn't constitute a base backup for further
+              differential backup operations</q>, and <q>log files should never be
+              truncated as a result of a copy backup</q>. In practice that means
+              it does not move SQL Server's differential base and does not
+              truncate Exchange's transaction logs.
+            </p>
+          </article>
+          <article class="card">
+            <h3>The backup drive cannot be the target</h3>
+            <p>
+              Erasing the drive holding the backup halfway through a restore
+              would leave a machine with neither a working system nor anything to
+              recover from. The wizard shows that drive and refuses it, rather
+              than warning and allowing it.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Erasing takes a deliberate act</h3>
+            <p>
+              Before anything is written you are shown the target disk's number,
+              model, serial number, size and current partitions, and you must
+              type <code>ERASE</code> followed by that serial number exactly.
+              A single keystroke is never enough.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Checks run before the destructive step</h3>
+            <p>
+              Every stored block is confirmed present before anything is erased,
+              a disk too small for the layout is refused, and the restore stops
+              if the disk changed size between being checked and being written.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Restore points are not promised</h3>
+            <p>
+              Removing any shadow copy can cost Windows older ones, because the
+              space is released from the oldest end of a single pool. MjolnirVSS
+              deletes only the snapshot it created, by identifier, and says what
+              is at risk before it starts instead of claiming nothing will be
+              lost.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Unsupported layouts are named, not attempted</h3>
+            <p>
+              Dynamic disks, Storage Spaces, software RAID, ReFS system volumes,
+              legacy BIOS boot, Windows spread across several disks and untested
+              sector sizes are each refused with an explanation of why.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Current status and limitations -->
+    <section class="section section-dark" id="status">
+      <div class="shell">
+        <div class="intro">
+          <p class="kicker">Current status</p>
+          <h2>Early alpha. Read this part before you rely on it.</h2>
+          <p>
+            <strong>Bare metal recovery has never been performed on physical
+            hardware.</strong> Test MjolnirVSS on a machine you can afford to
+            lose, and keep whatever backup you use today.
+          </p>
+        </div>
+
+        <div class="table-wrap">
+          <table class="matrix">
+            <caption class="visually-hidden">Maturity of each capability</caption>
+            <thead>
+              <tr><th scope="col">Capability</th><th scope="col">State</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Live backup through VSS</th><td><span class="pill pill-vm">End to end in a VM</span> <span class="pill pill-hw">Also on physical Windows</span></td></tr>
+              <tr><th scope="row">Used block imaging of NTFS volumes</th><td><span class="pill pill-vm">End to end in a VM</span></td></tr>
+              <tr><th scope="row">Verification of every stored block</th><td><span class="pill pill-vm">End to end in a VM</span></td></tr>
+              <tr><th scope="row">Restore onto a blank disk, and UEFI boot repair</th><td><span class="pill pill-vm">End to end in a VM</span></td></tr>
+              <tr><th scope="row">Booting a restored Windows on real hardware</th><td><span class="pill pill-no">Not yet proven</span></td></tr>
+              <tr><th scope="row">Single file recovery out of a backup</th><td><span class="pill pill-vm">End to end in a VM</span></td></tr>
+              <tr><th scope="row">Recovery media built from this machine's Windows files</th><td><span class="pill pill-vm">End to end in a VM</span></td></tr>
+              <tr><th scope="row">Encrypted backups, Argon2id and AES-256-GCM</th><td><span class="pill pill-vm">End to end in a VM</span> <span class="pill pill-impl">CLI only</span></td></tr>
+              <tr><th scope="row">BitLocker handling and the restore point warning</th><td><span class="pill pill-hw">Measured on physical Windows</span></td></tr>
+              <tr><th scope="row">Graphical backup window</th><td><span class="pill pill-impl">Implemented, lightly used</span></td></tr>
+              <tr><th scope="row">Incremental backups</th><td><span class="pill pill-no">Not implemented</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
         <div class="limits">
+          <h3>What it will not do today</h3>
           <ul>
-            <li>Run on anything but UEFI with a GPT system disk</li>
-            <li>Copy data that lives on any disk but the system one</li>
-            <li>Take incremental backups</li>
-            <li>Leave BitLocker switched on through a restore</li>
-            <li>Offer a download — there is no release yet</li>
+            <li>Offer a download. There is no binary release; you build it from source</li>
+            <li>Run on anything but UEFI firmware with a GPT system disk</li>
+            <li>Capture data that lives on any disk but the system one</li>
+            <li>Take incremental or differential backups</li>
+            <li>Carry BitLocker protection through a restore. Switch it on again afterwards</li>
+            <li>Read a locked BitLocker volume, which is refused rather than attempted</li>
           </ul>
         </div>
       </div>
     </section>
+
+    <!-- 9. Open and technical design -->
+    <section class="section" id="design">
+      <div class="shell">
+        <div class="intro">
+          <p class="kicker">Design</p>
+          <h2>Open format, documented interfaces, no magic.</h2>
+        </div>
+        <dl class="specs">
+          <div><dt>Language and target</dt><dd>Rust, <code>x86_64-pc-windows-msvc</code>, C runtime linked statically. No redistributable, no .NET, no Python</dd></div>
+          <div><dt>Snapshots</dt><dd><code>IVssBackupComponents</code>, declared as <code>VSS_BT_COPY</code>, with the snapshot released by its own identifier</dd></div>
+          <div><dt>Imaging</dt><dd>Allocated clusters only, via the NTFS volume bitmap; whole-volume fallback is recorded in the backup</dd></div>
+          <div><dt>Integrity</dt><dd>BLAKE3 over every block, checked on write and re-checkable on demand with <code>verify</code></dd></div>
+          <div><dt>Encryption</dt><dd>Argon2id key derivation and AES-256-GCM from RustCrypto. Optional. Passwords are never stored and never taken as an argument</dd></div>
+          <div><dt>On-disk format</dt><dd>A folder of JSON manifests and compressed blocks, specified in enough detail to write an independent reader</dd></div>
+          <div><dt>Recovery environment</dt><dd>Windows PE built from the machine's own recovery files. Nothing belonging to Microsoft is redistributed</dd></div>
+          <div><dt>Automation</dt><dd><code>--json</code> on every command, progress on standard error, eleven documented exit codes, and no prompt that can block a script</dd></div>
+          <div><dt>Licence</dt><dd>GPL-3.0-or-later. An independent clean room implementation that is not derived from any commercial backup product</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- 10. FAQ -->
+    <section class="section section-surface" id="faq">
+      <div class="shell">
+        <div class="intro">
+          <p class="kicker">Questions</p>
+          <h2>The things worth asking first.</h2>
+        </div>
+
+        <div class="faq">
+          <details>
+            <summary>Where do I download it?</summary>
+            <p>You do not, yet. There is no binary release. Clone the repository and build it with the stable Rust toolchain and the Visual Studio C++ build tools; the whole procedure is four commands.</p>
+          </details>
+          <details>
+            <summary>Is it safe to run against a production server?</summary>
+            <p>Two separate answers. On the VSS side it declares a copy backup, so it does not move SQL Server's differential base or truncate Exchange's logs. On the maturity side it is early alpha software whose recovery path has only been proven in virtual machines, so treat a production server as a place to test it alongside your existing backup, not instead of it.</p>
+          </details>
+          <details>
+            <summary>Does it install a service or an agent?</summary>
+            <p>No. There is no installer, no Windows service, no kernel filter driver, no scheduled task and no registry footprint. It uses the shadow copy service that is already part of Windows. Deleting the folder removes it.</p>
+          </details>
+          <details>
+            <summary>Will it back up my data drives too?</summary>
+            <p>Not today. It images the disk Windows boots from. Other disks are detected and named in the plan so you know what is not being captured, but they are not copied.</p>
+          </details>
+          <details>
+            <summary>What happens to BitLocker?</summary>
+            <p>An unlocked volume is read through its shadow copy, which presents it decrypted, so the backup contains readable copies of your files unless you encrypt the backup itself. A locked volume is refused. A restored disk comes back unencrypted and BitLocker has to be switched on again. No recovery key is ever read, stored or logged.</p>
+          </details>
+          <details>
+            <summary>Will taking a backup destroy my restore points?</summary>
+            <p>It can, and so can any program that takes a shadow copy. Windows releases shadow storage from the oldest end of one pool, so removing a new snapshot sometimes removes older ones first. MjolnirVSS deletes only its own snapshot and warns beforehand when there is something to lose. Your files are unaffected.</p>
+          </details>
+          <details>
+            <summary>Can I read a backup without MjolnirVSS?</summary>
+            <p>Yes. A backup is a folder of JSON manifests and compressed blocks, and the format is documented specifically so that an independent reader can be written. Nothing is hidden in a proprietary container.</p>
+          </details>
+          <details>
+            <summary>Does it work on BIOS or MBR machines?</summary>
+            <p>No. UEFI firmware with a GPT system disk only. A legacy BIOS installation is refused with an explanation rather than half supported.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. Final CTA -->
+    <section class="cta">
+      <div class="shell cta-inner">
+        <h2>Read the code before you trust it with a disk.</h2>
+        <p>
+          The repository holds the source, the on-disk format, the threat model
+          and the full record of what has and has not been tested.
+        </p>
+        <p class="hero-actions">
+          <a class="btn btn-primary" href="https://github.com/carlbomsdata/MjolnirVSS">View on GitHub</a>
+          <a class="btn btn-quiet-dark" href="https://github.com/carlbomsdata/MjolnirVSS/tree/main/docs">Read the documentation</a>
+        </p>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer">
     <div class="shell footer-inner">
-      <p>GNU General Public License, version 3 or later.</p>
-      <p><a href="https://github.com/carlbomsdata/MjolnirVSS">Source code and documentation</a></p>
+      <p>MjolnirVSS <span class="dot" aria-hidden="true"></span> GNU General Public License, version 3 or later</p>
+      <p><a href="https://github.com/carlbomsdata/MjolnirVSS">Source code</a> <span class="dot" aria-hidden="true"></span> <a href="https://github.com/carlbomsdata/MjolnirVSS/tree/main/docs">Documentation</a></p>
     </div>
   </footer>
 </body>
