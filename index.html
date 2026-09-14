@@ -3,17 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f8f8">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
-  <meta name="description" content="MjolnirVSS takes an image of a whole Windows system disk while Windows is running, and writes it back onto a blank replacement disk after the original has failed. Portable, nothing installed, open format.">
-  <meta name="keywords" content="MjolnirVSS, bare metal backup, Windows disk image, VSS shadow copy, disk restore, recovery media, Windows Server backup, open backup format">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="description" content="MjolnirVSS images a Windows system disk while Windows is running, and writes it back onto a new disk after the old one fails. Nothing is installed.">
+  <meta name="keywords" content="MjolnirVSS, bare metal backup, Windows disk image, VSS shadow copy, bare metal restore, recovery media, Windows Server backup">
   <meta property="og:title" content="MjolnirVSS — bare metal backup for Windows">
-  <meta property="og:description" content="An image of a whole Windows system disk, taken while Windows runs, that can be written back onto a new disk after the old one fails. Nothing is installed.">
+  <meta property="og:description" content="Image a Windows system disk while Windows runs. Put it back on a new disk after the old one fails.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="MjolnirVSS">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="MjolnirVSS — bare metal backup for Windows">
-  <meta name="twitter:description" content="An image of a whole Windows system disk, taken while Windows runs, that can be written back onto a new disk after the old one fails.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23143c6e'/%3E%3Ctext x='32' y='44' font-family='Segoe UI,system-ui,sans-serif' font-size='32' font-weight='700' fill='%2378beff' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
   <title>MjolnirVSS — bare metal backup for Windows</title>
   <link rel="stylesheet" href="styles.css">
@@ -28,9 +26,8 @@
         <span>MjolnirVSS</span>
       </a>
       <nav class="nav" aria-label="Primary navigation">
-        <a href="#what">What it does</a>
-        <a href="#recovery">Recovery</a>
-        <a href="#tested">What has been tested</a>
+        <a href="#how">How it works</a>
+        <a href="#tested">Tested</a>
         <a href="#limits">Limits</a>
       </nav>
       <a class="header-link" href="https://github.com/carlbomsdata/MjolnirVSS">GitHub</a>
@@ -39,168 +36,115 @@
 
   <main id="main" tabindex="-1">
     <section class="hero shell">
-      <p class="release-line">Windows 10, Windows 11 and Windows Server <span aria-hidden="true">·</span> 0.1.0-alpha.1</p>
+      <p class="release-line">For Windows 10, 11 and Server <span aria-hidden="true">·</span> v0.1.0-alpha.1</p>
       <h1>Put the whole disk back.</h1>
-      <p class="hero-copy">MjolnirVSS takes an image of a Windows system disk while Windows is running, and writes it back onto a blank replacement disk after the original has failed.</p>
-      <p class="hero-sub">No installer, no service, no driver, no runtime. Download, extract, run. Deleting the folder removes every trace.</p>
+      <p class="hero-copy">
+        An image of a Windows system disk, taken while Windows is running, that
+        can be written onto a blank disk after the old one fails.
+      </p>
+      <p class="hero-sub">No installer, no service, no driver. Delete the folder and it is gone.</p>
 
-      <div class="notice notice-hero" role="note">
-        <strong>Early, and honest about it.</strong> Every result on this page was measured in a virtual machine.
-        <strong>No real computer has ever been restored from a MjolnirVSS backup.</strong> Treat it as something to
-        test on a machine you can afford to lose, and keep the backup you already have.
-      </div>
-
-      <figure class="shot shot-hero">
-        <img src="assets/screenshots/app-backup.png" width="885" height="638" alt="The MjolnirVSS window: a navigation rail on the left, and a pane listing the computer, its disk and its four partitions, with a folder to save the backup into.">
-        <figcaption>It says what it would copy before it does anything.</figcaption>
+      <figure class="shot">
+        <img src="assets/screenshots/app-backup.png" width="885" height="638"
+             alt="The MjolnirVSS window listing the computer's disk and its four partitions before anything is copied.">
       </figure>
     </section>
 
-    <section class="section shell" id="what">
-      <div class="section-intro">
-        <p class="kicker">What it does</p>
-        <h2>One disk, captured whole, while you carry on using it.</h2>
-      </div>
-
-      <div class="capability-grid">
-        <article class="capability">
-          <h3>A backup taken live</h3>
-          <p>Microsoft's Volume Shadow Copy Service freezes the disk for the instant it takes to start a snapshot. The copy is read from that frozen view, so the machine stays usable.</p>
-        </article>
-        <article class="capability">
-          <h3>Every partition that boots</h3>
-          <p>The partition table, the EFI system partition, the Microsoft Reserved partition, Windows and the recovery partition. If one cannot be read the backup fails, rather than quietly producing a disk that will not start.</p>
-        </article>
-        <article class="capability">
-          <h3>Free space is not copied</h3>
-          <p>MjolnirVSS asks the filesystem which clusters are in use and reads only those. On one measured machine that was 2.9 million clusters out of 16.5 million.</p>
-        </article>
-        <article class="capability">
-          <h3>Verified before it is called a backup</h3>
-          <p>Every stored block is read back, decompressed and checked against its BLAKE3 digest. Only then is the completion marker written, so an interrupted backup never looks usable.</p>
-        </article>
-        <article class="capability">
-          <h3>Optional encryption</h3>
-          <p>Argon2id and AES-256-GCM, from RustCrypto, used in documented ways. The password is never stored and never accepted as a command line argument. Lose it and the backup is lost.</p>
-        </article>
-        <article class="capability">
-          <h3>A format you can read without it</h3>
-          <p>A backup is a plain folder of JSON and compressed blocks. The format is documented in enough detail to write an independent reader.</p>
-        </article>
+    <section class="band">
+      <div class="shell">
+        <h2>It has never restored a real computer.</h2>
+        <p>
+          Every figure on this page was measured in a virtual machine. Treat
+          MjolnirVSS as something to test on a machine you can afford to lose,
+          and keep the backup you already have.
+        </p>
       </div>
     </section>
 
-    <section class="section section-muted" id="recovery">
+    <section class="section" id="how">
+      <div class="shell">
+        <div class="section-intro">
+          <p class="kicker">How it works</p>
+          <h2>One disk, captured whole, while you carry on using it.</h2>
+        </div>
+        <div class="facts">
+          <div>
+            <h3>Taken live</h3>
+            <p>Microsoft's shadow copy service freezes the disk for the instant it takes to start a snapshot. The copy is read from that frozen view.</p>
+          </div>
+          <div>
+            <h3>Only what is in use</h3>
+            <p>Free space is not copied. On one measured machine that was 2.9 million clusters out of 16.5 million.</p>
+          </div>
+          <div>
+            <h3>Verified before it is trusted</h3>
+            <p>Every stored block is read back and checked against its digest. Only then is the backup marked complete.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-muted" id="tested">
+      <div class="shell">
+        <div class="section-intro">
+          <p class="kicker">What has been run</p>
+          <h2>Four operating systems, backed up, restored, and started.</h2>
+        </div>
+        <table class="results">
+          <tr><th>Windows 10 22H2</th><td>4.75 GB stored</td><td class="ok">booted</td></tr>
+          <tr><th>Windows 11 24H2</th><td>18.28 GB stored</td><td class="ok">booted</td></tr>
+          <tr><th>Windows Server 2019</th><td>4.44 GB stored</td><td class="ok">booted</td></tr>
+          <tr><th>Windows Server 2025</th><td>6.10 GB stored</td><td class="ok">booted</td></tr>
+        </table>
+        <p class="note">
+          Each restored machine started unaided, matched 12 of 12 file hashes,
+          and kept every partition's identifier, offset and size.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="shell">
         <div class="section-intro">
           <p class="kicker">When the disk has failed</p>
-          <h2>Boot the recovery media, choose the backup, type the disk's serial number.</h2>
-          <p>MjolnirVSS builds its own bootable recovery media out of the Windows recovery parts the computer already has. Nothing belonging to Microsoft is shipped or downloaded. Build it before you need it: a computer that will not start cannot build its own rescue disc.</p>
+          <h2>Boot the media, choose the backup, type the disk's serial number.</h2>
+          <p>
+            MjolnirVSS builds its own recovery media from the Windows parts this
+            computer already has. The drive holding the backup cannot be chosen,
+            and nothing is erased until you have typed the phrase exactly.
+          </p>
         </div>
-
-        <div class="shot-row">
-          <figure class="shot">
-            <img src="assets/screenshots/recovery-choose-disk.png" width="717" height="514" loading="lazy" alt="The recovery wizard listing two disks. The one holding the backup is marked and cannot be chosen.">
-            <figcaption>The drive holding the backup cannot be chosen. Erasing it halfway through a restore would leave a computer with neither a working system nor anything to recover from.</figcaption>
-          </figure>
-          <figure class="shot">
-            <img src="assets/screenshots/recovery-confirm.png" width="717" height="514" loading="lazy" alt="The review step, showing what will be restored and onto which disk, with a box to type the erase phrase.">
-            <figcaption>Before anything is erased you see the disk, its serial number, its size and every partition on it, and you type the phrase exactly. It will not accept <code>y</code>.</figcaption>
-          </figure>
-          <figure class="shot">
-            <img src="assets/screenshots/recovery-finished.png" width="717" height="514" loading="lazy" alt="The finished step, reporting how much was written and how many partitions were restored.">
-            <figcaption>Then remove the media and restart.</figcaption>
-          </figure>
-        </div>
-
-        <p class="aside">The wizard works from the keyboard alone, which matters in Windows PE on a machine whose mouse may not be the thing that still works.</p>
+        <figure class="shot">
+          <img src="assets/screenshots/recovery-confirm.png" width="717" height="514" loading="lazy"
+               alt="The recovery wizard showing what will be restored and onto which disk, with a box to type the erase phrase.">
+        </figure>
       </div>
     </section>
 
-    <section class="section shell" id="tested">
-      <div class="section-intro">
-        <p class="kicker">What has actually been run</p>
-        <h2>Four operating systems, each taken the whole way round.</h2>
-        <p>Backed up live, verified, files recovered by hash, restored onto a blank disk from the recovery wizard, started, and then checked against what went in. All four were virtual machines.</p>
-      </div>
-
-      <div class="table-wrap">
-        <table class="results">
-          <caption class="visually-hidden">Measured results per operating system</caption>
-          <thead>
-            <tr><th scope="col">Operating system</th><th scope="col">Build</th><th scope="col">Backup</th><th scope="col">Stored</th><th scope="col">Restored</th><th scope="col">Booted</th></tr>
-          </thead>
-          <tbody>
-            <tr><th scope="row">Windows 10 22H2</th><td>19045</td><td>209 s</td><td>4.75 GB</td><td>14.5 GiB</td><td>unaided</td></tr>
-            <tr><th scope="row">Windows 11 24H2</th><td>26100</td><td>884 s</td><td>18.28 GB</td><td>28.5 GiB</td><td>unaided</td></tr>
-            <tr><th scope="row">Windows Server 2019</th><td>17763</td><td>166 s</td><td>4.44 GB</td><td>14.6 GiB</td><td>unaided</td></tr>
-            <tr><th scope="row">Windows Server 2025</th><td>26100</td><td>478 s</td><td>6.10 GB</td><td>11.7 GiB</td><td>unaided</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p class="aside">Every restored machine matched 12 of 12 test file hashes, kept every partition's type, identifier, offset and size, and still had the Windows Recovery Environment registered. Windows Server 2022 sits between the two servers that were tested and <strong>has not been run</strong>.</p>
-    </section>
-
-    <section class="section section-muted" id="server">
+    <section class="section section-muted" id="limits">
       <div class="shell">
         <div class="section-intro">
-          <p class="kicker">On a server</p>
-          <h2>It does not disturb the backups you already have.</h2>
+          <p class="kicker">The limits</p>
+          <h2>What it will not do.</h2>
         </div>
-        <div class="compare-grid">
-          <article class="compare-card">
-            <h3>What a full backup would do</h3>
-            <ul>
-              <li>Windows defines it as updating every file's backup history</li>
-              <li>The SQL writer commits it as the differential base, so the next differential is measured from this snapshot</li>
-              <li>Writers that truncate logs on a full backup, Exchange among them, do so</li>
-            </ul>
-          </article>
-          <article class="compare-card compare-card-us">
-            <h3>What MjolnirVSS declares</h3>
-            <ul>
-              <li>A <strong>copy</strong> backup, which by definition does not update the backup history</li>
-              <li>Microsoft: it "doesn't constitute a base backup for further differential backup operations, and it also doesn't disturb the history of the previous differential backups"</li>
-              <li>Microsoft: "log files should never be truncated as a result of a copy backup"</li>
-            </ul>
-          </article>
+        <div class="limits">
+          <ul>
+            <li>Run on anything but UEFI with a GPT system disk</li>
+            <li>Capture data that lives on any disk but the system one</li>
+            <li>Take incremental backups</li>
+            <li>Keep BitLocker switched on through a restore</li>
+            <li>Offer you a download, because there is no release yet</li>
+          </ul>
         </div>
-        <p class="aside">MjolnirVSS images a disk. It cannot restore a single database and keeps no backup history, so it has no business claiming a full backup and does not.</p>
-      </div>
-    </section>
-
-    <section class="section shell" id="limits">
-      <div class="section-intro">
-        <p class="kicker">The limits</p>
-        <h2>What it will not do, said plainly.</h2>
-        <p>MjolnirVSS refuses what it has not been built and tested for, rather than attempting it and producing a backup that turns out not to work. Every refusal explains itself.</p>
-      </div>
-
-      <div class="limit-grid">
-        <div class="limit"><h3>No real hardware yet</h3><p>Every result here is from a virtual machine. Firmware differs, disks differ, and a virtual NVMe disk is not a Samsung one.</p></div>
-        <div class="limit"><h3>UEFI and GPT only</h3><p>Machines that boot in legacy BIOS mode, and disks with a master boot record, are refused. Windows 7 and 8.1 are not supported.</p></div>
-        <div class="limit"><h3>One system disk</h3><p>Data on other disks is not captured, and MjolnirVSS names those disks so you know. Storage Spaces, dynamic disks and software RAID are refused.</p></div>
-        <div class="limit"><h3>No incremental backups</h3><p>Not started, deliberately, until the above is solid.</p></div>
-        <div class="limit"><h3>BitLocker comes back off</h3><p>A shadow copy presents an unlocked volume decrypted, so the backup holds readable data and a restored disk is unencrypted. Turn BitLocker on again afterwards.</p></div>
-        <div class="limit"><h3>Reviewed by nobody else</h3><p>This has not been looked at by anyone but its author. Standard primitives used in documented ways is the floor, not a substitute.</p></div>
-      </div>
-
-      <div class="notice" role="note">
-        <strong>There is no release to download yet.</strong> MjolnirVSS is at <code>0.1.0-alpha.1</code> and has not been published.
-        The way to find out whether it works for your machine is to restore one of its backups onto a spare disk, or into a
-        virtual machine, and see whether Windows starts. Until you have done that, keep whatever backup you were using before.
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="shell footer-inner">
-      <p>MjolnirVSS is free software under the GNU General Public License, version 3 or later.</p>
-      <p><span id="year">2026</span> · <a href="https://github.com/carlbomsdata/MjolnirVSS">Source and documentation</a></p>
+      <p>Free software under the GNU General Public License, version 3 or later.</p>
+      <p><a href="https://github.com/carlbomsdata/MjolnirVSS">Source and documentation</a></p>
     </div>
   </footer>
-
-  <script src="script.js"></script>
 </body>
 </html>
